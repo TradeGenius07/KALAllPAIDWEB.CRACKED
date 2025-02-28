@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Particle Effect</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        #particleCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .glowing-red {
+            border: 2px solid red;
+            box-shadow: 0 0 10px red;
+            padding: 20px;
+            margin: 10px;
+            width: 90%;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+        }
+        .textview {
+            margin: 10px;
+            font-size: 20px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .result-btn {
+            background-color: blue;
+            color: white;
+        }
+        .result-btn:hover {
+            background-color: #005f8b;
+        }
+        .history-btn {
+            background-color: green;
+            color: white;
+        }
+        .history-btn:hover {
+            background-color: #006400;
+        }
+        .next-hack-btn {
+            background-color: purple;
+            color: white;
+        }
+        .next-hack-btn:hover {
+            background-color: #4b0082;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        li {
+            padding: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        /* Telegram Button Styling */
+        .telegram-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #0088cc;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+        .telegram-button:hover {
+            background-color: #005f8b;
+        }
+        /* CRACK BY TradeGenius07 Styling */
+        .crack-text {
+            font-size: 16px;
+            color: lime;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+    <div class="container">
+        <div class="glowing-red">
+            <div id="textview1" class="textview">Loading...</div>
+            <div id="textview2" class="textview">00:00</div>
+            <div id="textview3" class="textview">Result</div>
+            <div id="textview4" class="textview">TextView4</div>
+            <button id="resultBtn" class="result-btn">RESULT</button>
+            <button id="historyBtn" class="history-btn">HISTORY</button>
+            <!-- NEXT HACK Button -->
+            <button id="nextHackBtn" class="next-hack-btn">NEXT HACK</button>
+            <!-- CRACK BY TradeGenius07 -->
+            <div class="crack-text">CRACK BY TradeGenius07</div>
+            <!-- Telegram Join Button -->
+            <a href="https://t.me/TradeGenius07" class="telegram-button" target="_blank">Join Telegram</a>
+            <ul id="resultList"></ul>
+        </div>
+    </div>
+
+    <script>
+        // Timer and Period Calculation
+        function updateTimer() {
+            const now = new Date();
+            const seconds = now.getUTCSeconds();
+            const remainingSeconds = 60 - seconds;
+            const minutes = now.getUTCMinutes();
+            const totalMinutes = now.getUTCHours() * 60 + minutes;
+
+            const dateStr = now.getUTCFullYear().toString() +
+                String(now.getUTCMonth() + 1).padStart(2, '0') +
+                String(now.getUTCDate()).padStart(2, '0');
+            
+            const periodNumber = dateStr + "1000" + (10001 + totalMinutes);
+
+            document.getElementById("textview1").innerText = periodNumber;
+            document.getElementById("textview2").innerText = `   00  :  ${remainingSeconds.toString().padStart(2, '0')}`.replace(/(?<=\d)(?=\d)/g, " ");
+        }
+
+        setInterval(updateTimer, 1000);
+        updateTimer(); // Initial call
+
+        // Result Button Click
+        let lastPeriod = "";
+        let lastTextView4 = "";
+
+        document.getElementById("resultBtn").addEventListener("click", function () {
+            const currentPeriod = document.getElementById("textview1").innerText;
+            const currentTextView4 = document.getElementById("textview4").innerText;
+
+            if (currentPeriod !== lastPeriod) {
+                const randomResult = Math.random() < 0.5 ? "BIGRED" : "SMALLGREEN";
+
+                if (currentTextView4 !== lastTextView4) {
+                    document.getElementById("textview3").innerText = randomResult;
+                } else {
+                    document.getElementById("textview3").innerText = "Same Result";
+                }
+
+                // Add to ListView
+                const listItem = document.createElement("li");
+                listItem.innerText = `${currentPeriod}: ${document.getElementById("textview3").innerText}`;
+                document.getElementById("resultList").prepend(listItem);
+
+                lastPeriod = currentPeriod;
+                lastTextView4 = currentTextView4;
+            } else {
+                document.getElementById("textview3").innerText = "Please wait for next period";
+            }
+        });
+
+        // NEXT HACK Button Click
+        document.getElementById("nextHackBtn").addEventListener("click", function () {
+            // Redirect to the second HTML file
+            window.location.href = "second-file.html"; // Replace with the actual file name
+        });
+
+        // Particle Animation
+        const canvas = document.getElementById("particleCanvas");
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particles = [];
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.radius = Math.random() * 4 + 1;
+                this.dx = (Math.random() - 0.5) * 2;
+                this.dy = (Math.random() - 0.5) * 2;
+                this.opacity = Math.random();
+            }
+
+            update() {
+                this.x += this.dx;
+                this.y += this.dy;
+
+                if (this.x < 0 || this.x > canvas.width) this.dx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.dy *= -1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(0, 0, 255, ${this.opacity})`;
+                ctx.fill();
+                ctx.closePath();
+            }
+        }
+
+        function createParticles() {
+            for (let i = 0; i < 100; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+
+        createParticles();
+        animateParticles();
+    </script>
+</body>
+</html>
