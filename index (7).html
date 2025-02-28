@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KAL MODS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            color: white;
+            font-weight: bold;
+        }
+
+        body {
+            background-color: black;
+            overflow: hidden;
+        }
+
+        /* Black Background with Glowing Red Particle Animation */
+        #main {
+            position: absolute;
+            width: 100%;
+            height: 100vh;
+            background-color: black;
+            overflow: hidden;
+        }
+
+        /* Glowing Green Stroke */
+        #container {
+            position: relative;
+            width: 90%;
+            margin: 5% auto;
+            padding: 20px;
+            border: 5px solid lime;
+            border-radius: 10px;
+            box-shadow: 0 0 15px lime;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        /* TextView Styling */
+        .textView {
+            font-size: 24px;
+            margin: 10px;
+        }
+
+        #textview1 { font-size: 30px; color: red; }
+        #textview2, #textview3 { font-size: 24px; }
+        #textview4 { font-size: 18px; color: lime; }
+
+        /* ListView */
+        #listView {
+            width: 100%;
+            margin-top: 20px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        li {
+            padding: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            list-style-type: none;
+        }
+
+        /* Particle Animation */
+        .particle {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background-color: red;
+            box-shadow: 0 0 10px red;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: moveParticle linear infinite;
+        }
+
+        @keyframes moveParticle {
+            from { transform: translateY(100vh); }
+            to { transform: translateY(-10px); }
+        }
+
+        /* Telegram Button Styling */
+        .telegram-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #0088cc;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+
+        .telegram-button:hover {
+            background-color: #005f8b;
+        }
+
+        /* CRACK BY TradeGenius07 Styling */
+        .crack-text {
+            font-size: 16px;
+            color: lime;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Black Background with Red Particle Animation -->
+    <div id="main"></div>
+
+    <!-- Glowing Green Stroke Container -->
+    <div id="container">
+        <div id="textview1" class="textView">KAL MODS</div>
+        <div id="textview2" class="textView">Loading...</div>
+        <div id="textview3" class="textView">00:00</div>
+        <div id="textview4" class="textView">Additional TextView</div>
+
+        <!-- CRACK BY TradeGenius07 -->
+        <div class="crack-text">CRACK BY TradeGenius07</div>
+
+        <!-- Telegram Join Button -->
+        <a href="https://t.me/TradeGenius07" class="telegram-button" target="_blank">Join Telegram</a>
+
+        <!-- ListView -->
+        <ul id="listView"></ul>
+    </div>
+
+    <script>
+        // Particle Animation
+        function createParticle() {
+            const particle = document.createElement("div");
+            particle.classList.add("particle");
+            particle.style.left = Math.random() * window.innerWidth + "px";
+            particle.style.animationDuration = (Math.random() * 3 + 2) + "s";
+            document.getElementById("main").appendChild(particle);
+            
+            setTimeout(() => particle.remove(), 5000);
+        }
+        
+        setInterval(createParticle, 100);
+
+        // Timer Logic
+        let lastPeriod = "";
+        let lastResult = "";
+
+        function updateTimer() {
+            const calendar = new Date();
+            const seconds = calendar.getSeconds();
+            const remainingSeconds = 60 - seconds;
+            const minutes = calendar.getMinutes();
+            const totalMinutes = calendar.getHours() * 60 + minutes;
+
+            // Period Number Calculation
+            const formattedDate = new Intl.DateTimeFormat("en-US", { year: 'numeric', month: '2-digit', day: '2-digit' }).format(calendar).replace(/\//g, "");
+            const period = formattedDate + "1000" + (10001 + totalMinutes);
+            
+            // Update TextView2
+            document.getElementById("textview2").textContent = period;
+
+            // Countdown Timer
+            const formattedTime = `   ${String(0).padStart(2, '0')}  :  ${String(remainingSeconds).padStart(2, '0')}`.replace(/(?<=\d)(?=\d)/g, " ");
+            document.getElementById("textview3").textContent = formattedTime;
+
+            // If the period changed, generate a new random result
+            if (lastPeriod !== period) {
+                lastPeriod = period;
+                lastResult = Math.random() < 0.5 ? "BIG" : "SMALL";
+                document.getElementById("textview3").textContent = lastResult;
+
+                // Add to ListView
+                const listItem = document.createElement("li");
+                listItem.textContent = lastResult;
+                document.getElementById("listView").prepend(listItem);
+            }
+        }
+
+        // Update timer every second
+        setInterval(updateTimer, 1000);
+
+        // Click Handling Logic
+        document.body.addEventListener("click", function () {
+            const textView3 = document.getElementById("textview3");
+
+            if (textView3.textContent !== lastResult) {
+                textView3.textContent = "Please wait for next period";
+            }
+        });
+    </script>
+</body>
+</html>
